@@ -88,6 +88,15 @@ install () {
     echo
     if [[ $REPLY =~ ^[Yy]$ ]]
     then
+        echo "###############################"
+        echo "## Add no password for user  ##"
+        echo "###############################"
+        echo ""
+        sudo sed -i "/sudoers(5)/i\# User no password privilege" /etc/sudoers
+        sudo echo "$USER" | sudo sed -i "/# User no password privilege/a\\$USER  ALL=(ALL) NOPASSWD: ALL\n" /etc/sudoers
+        echo "User no password privilege added"
+        echo ""
+    
         echo ""
         echo "#######################"
         echo "##  Updating system  ##"
@@ -205,18 +214,11 @@ install () {
         sudo systemctl daemon-reload
         sudo systemctl stop tinker-bluetooth
         sudo systemctl start tinker-bluetooth
-        
-        ###############################
-        ## Add no password for user  ##
-        ###############################
-
-        sudo sed -i "/sudoers(5)/i\# User no password privilege" /etc/sudoers
-        sudo echo "$USER" | sudo sed -i "/# User no password privilege/a\\$USER  ALL=(ALL) NOPASSWD: ALL\n" /etc/sudoers
 
         echo ""
-        echo "##############################"
-        echo "##  Installation complete.  ##"
-        echo "##############################"
+        echo "####################################"
+        echo "##  Basic installation complete.  ##"
+        echo "####################################"
         echo "" 
     fi
         echo ""
