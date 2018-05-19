@@ -101,7 +101,7 @@ install () {
         echo "##  Installing various required packaged  ##"
         echo "############################################"
         echo ""
-        sudo apt install -y libtool cmake autoconf automake libdrm2 libx11-6 libx11-data libx11-xcb1 libxau6 libxcb-dri2-0 libxcb1 libxdmcp6 xutils-dev libsdl2-dev libffi-dev libexpat1-dev libxml2-dev libusb-1.0-0-dev libavcodec-dev libavformat-dev libavdevice-dev mpv
+        sudo apt install -y libtool cmake autoconf automake libxml2-dev libusb-1.0-0-dev libavcodec-dev libavformat-dev libavdevice-dev mpv
         
         echo ""
         echo "#################################"
