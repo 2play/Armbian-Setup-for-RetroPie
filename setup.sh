@@ -226,6 +226,12 @@ install () {
         echo "##  Optionnal installation  ##"
         echo "##############################"
         echo ""
+        read -p "Do you want use audio by HDMI? (Y/N)" -n 1 -r
+        echo
+            if [[ $REPLY =~ ^[Yy]$ ]]
+            then
+                sudo sed -i "l69/defaults.pcm.card 0/c\defaults.pcm.card 1" /usr/share/alsa/alsa.conf
+    fi   
         read -p "Do you want install Xbox One S Wireless support? (Y/N)" -n 1 -r
         echo
             if [[ $REPLY =~ ^[Yy]$ ]]
