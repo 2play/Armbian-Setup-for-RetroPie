@@ -230,7 +230,7 @@ install () {
         echo
             if [[ $REPLY =~ ^[Yy]$ ]]
             then
-                sudo sed -i "l69/defaults.pcm.card 0/c\defaults.pcm.card 1" /usr/share/alsa/alsa.conf
+                sudo sed -i "/defaults.pcm.card 0/c\defaults.pcm.card 1" /usr/share/alsa/alsa.conf
     fi   
         read -p "Do you want install Xbox One S Wireless support? (Y/N)" -n 1 -r
         echo
