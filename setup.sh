@@ -211,7 +211,7 @@ install () {
         ###############################
 
         sudo sed -i "/sudoers(5)/i\# User no password privilege" /etc/sudoers
-        sudo echo "$USER" | sed -i "/# User no password privilege/a\\$USER  ALL=(ALL) NOPASSWD: ALL" /etc/sudoers
+        sudo echo "$USER" | sudo sed -i "/# User no password privilege/a\\$USER  ALL=(ALL) NOPASSWD: ALL" /etc/sudoers
 
         echo ""
         echo "##############################"
