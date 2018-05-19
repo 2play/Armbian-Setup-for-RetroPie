@@ -171,7 +171,7 @@ install () {
         echo "##########################"
         echo ""
         sudo apt install libffi-dev libexpat1-dev
-        git clone git://anongit.freedesktop.org/wayland/wayland
+        git clone https://github.com/wayland-project/wayland.git
         cd wayland
         ./autogen.sh --disable-documentation
         make -j4 && sudo make install
