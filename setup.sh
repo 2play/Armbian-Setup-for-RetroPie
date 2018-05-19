@@ -101,7 +101,7 @@ install () {
         echo "##  Installing various required packaged  ##"
         echo "############################################"
         echo ""
-        sudo apt install -y libtool cmake autoconf automake libxml2-dev libusb-1.0-0-dev libavcodec-dev libavformat-dev libavdevice-dev mpv
+        sudo apt install -y libtool cmake autoconf automake libxml2-dev libusb-1.0-0-dev libavcodec-dev libavformat-dev libavdevice-dev libdrm-dev pkg-config mpv
         
         echo ""
         echo "#################################"
