@@ -130,8 +130,8 @@ install () {
         echo "##  Installing GPU userspace driver  ##"
         echo "#######################################"
         echo ""
-        wget https://github.com/rockchip-linux/rk-rootfs-build/raw/master/packages/armhf/libmali/libmali-rk-midgard-t76x-r14p0-r0p0_1.6-1_armhf.deb
-        sudo dpkg -i libmali-rk-midgard-t76x-r14p0-r0p0_1.6-1_armhf.deb
+        wget https://github.com/rockchip-linux/rk-rootfs-build/raw/master/packages/armhf/libmali/libmali-rk-midgard-t76x-r14p0-r0p0-wayland_1.6-1_armhf.deb
+        sudo dpkg -i libmali-rk-midgard-t76x-r14p0-r0p0-wayland_1.6-1_armhf.deb
         wget https://github.com/rockchip-linux/rk-rootfs-build/raw/master/packages/armhf/libmali/libmali-rk-dev_1.6-1_armhf.deb
         sudo dpkg -i libmali-rk-dev_1.6-1_armhf.deb
         
