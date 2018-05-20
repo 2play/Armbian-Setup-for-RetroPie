@@ -124,7 +124,7 @@ install () {
         echo "##  Installing requirements for GPU driver  ##"
         echo "##############################################"
         echo ""
-        sudo apt install -y libdrm2 libx11-6 libx11-data libx11-xcb1 libxau6 libxcb-dri2-0 libxcb1 libxdmcp6 libgles2-mesa-dev libegl1-mesa-dev
+        sudo apt install -y libdrm2 libx11-6 libx11-data libx11-xcb1 libxau6 libxcb-dri2-0 libxcb1 libxdmcp6 libgles1-mesa-dev libgles2-mesa-dev libegl1-mesa-dev
         echo ""
         echo "#######################################"
         echo "##  Installing GPU userspace driver  ##"
