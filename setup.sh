@@ -124,7 +124,7 @@ install () {
         echo "##  Installing requirements for GPU driver  ##"
         echo "##############################################"
         echo ""
-        sudo apt install -y libdrm2 libx11-6 libx11-data libx11-xcb1 libxau6 libxcb-dri2-0 libxcb1 libxdmcp6
+        sudo apt install -y libdrm2 libx11-6 libx11-data libx11-xcb1 libxau6 libxcb-dri2-0 libxcb1 libxdmcp6 libgles2-mesa-dev libegl1-mesa-dev
         echo ""
         echo "#######################################"
         echo "##  Installing GPU userspace driver  ##"
@@ -155,7 +155,7 @@ install () {
         echo "##  Installing libmali  ##"
         echo "##########################"
         echo ""
-        git clone --branch rockchip https://github.com/rockchip-linux/libmali.git
+        git clone --branch rockchip-header https://github.com/rockchip-linux/libmali.git
         cd libmali
         cmake CMakeLists.txt
         make -j4 -C ~/libmali && sudo make install
