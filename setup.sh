@@ -161,6 +161,12 @@ install () {
         make -j4 -C ~/libmali && sudo make install
         cd ~
         rm -rf libmali
+        git clone --branch rockchip https://github.com/rockchip-linux/libmali.git
+        cd libmali
+        cmake CMakeLists.txt
+        make -j4 -C ~/libmali && sudo make install
+        cd ~
+        rm -rf libmali
         
         echo ""
         echo "######################"
