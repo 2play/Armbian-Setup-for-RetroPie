@@ -1,2 +1,4 @@
 # Armbian-Setup-for-RetroPie
-bash script for retropie on the  tinkerboard
+setup.sh is a bash script for retropie on the  tinkerboard
+
+all aother files are the change i've make for baground music or other extra
