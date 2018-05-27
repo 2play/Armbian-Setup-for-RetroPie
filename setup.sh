@@ -54,7 +54,7 @@ check_kernel () {
             unknown_os
         fi
         
-vl= "${>=0" && "<=130"}
+vl= "${>=0" && "<=130}"
 vm=vl
         
         if [[ "${kernel}" != "4.4.$vl-rockchip" || "4.14.$vm-rockchip"]]; then
