@@ -54,9 +54,10 @@ check_kernel () {
             unknown_os
         fi
         
+vl= "${>=0" && "<=130"}
+vm=vl
         
-        
-        if [[ "${kernel}" != "4.4.119-rockchip" || "4.14.44-rockchip"]]; then
+        if [[ "${kernel}" != "4.4.$vl-rockchip" || "4.14.$vm-rockchip"]]; then
             echo "Detected kernel version as $kernel"
             unknown_os
         fi
