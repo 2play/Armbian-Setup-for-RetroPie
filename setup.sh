@@ -117,7 +117,7 @@ install () {
         echo "##  Installing kernel headers  ##"
         echo "#################################"
         echo ""
-        if [[ "${kernel}" == "4.14.44-rockchip"]]
+        if [[ "${kernel}" == "4.14."$kv"-rockchip"]]
         then
             sudo apt install -y linux-headers-next-rockchip
         else
@@ -223,7 +223,7 @@ install () {
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
             read -p "Do you want to install bluetooth? (Y/N)" -n 1 -r
-            if [[ $REPLY =~ ^[Yy]$ ]] && [[ "${kernel}" != "4.4.119-rockchip"]]
+            if [[ $REPLY =~ ^[Yy]$ ]] && [[ "${kernel}" != "4.4."$kv"-rockchip"]]
                 echo ""
                 echo "############################"
                 echo "##  Installing bluetooth  ##"
@@ -245,7 +245,7 @@ install () {
                 sudo systemctl stop tinker-bluetooth
                 sudo systemctl start tinker-bluetooth
             
-            elif [[ $REPLY =~ ^[Yy]$ ]] && [[ "${kernel}" != "4.14.42-rockchip"]]
+            elif [[ $REPLY =~ ^[Yy]$ ]] && [[ "${kernel}" != "4.14."$kv"-rockchip"]]
                 echo ""
                 echo "############################"
                 echo "##  Installing bluetooth  ##"
