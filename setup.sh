@@ -54,7 +54,7 @@ check_kernel () {
             unknown_os
         fi
         
-kv= "${>=0" && "<=130}"
+kv= "${'>=0' && '<=130'}"
         
         if [[ "${kernel}" != "4.4.'$kv'-rockchip" || "4.14.'$kv'-rockchip"]]; then
             echo "Detected kernel version as $kernel"
