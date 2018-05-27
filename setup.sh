@@ -117,14 +117,18 @@ install () {
         echo "##  Installing kernel headers  ##"
         echo "#################################"
         echo ""
-        sudo apt install -y linux-headers-rockchip
-        
+        if [[ "${kernel}" == "4.14.44-rockchip"]]
+        then
+            sudo apt install -y linux-headers-next-rockchip
+        else
+            sudo apt install -y linux-headers-rockchip
         echo ""
         echo "##############################################"
         echo "##  Installing requirements for GPU driver  ##"
         echo "##############################################"
         echo ""
         sudo apt install -y libdrm2 libx11-6 libx11-data libx11-xcb1 libxau6 libxcb-dri2-0 libxcb1 libxdmcp6 libgles1-mesa-dev libgles2-mesa-dev libegl1-mesa-dev
+        
         echo ""
         echo "#######################################"
         echo "##  Installing GPU userspace driver  ##"
@@ -134,7 +138,6 @@ install () {
         sudo dpkg -i libmali-rk-midgard-t76x-r14p0-r0p0-wayland_1.6-1_armhf.deb
         wget https://github.com/rockchip-linux/rk-rootfs-build/raw/master/packages/armhf/libmali/libmali-rk-dev_1.6-1_armhf.deb
         sudo dpkg -i libmali-rk-dev_1.6-1_armhf.deb
-        
         rm *.deb
         
         echo ""
@@ -205,7 +208,9 @@ install () {
         echo "##  Basic installation complete.  ##"
         echo "####################################"
         echo "" 
+    
     fi
+       
         echo ""
         echo "##############################"
         echo "##  Optionnal installation  ##"
@@ -238,6 +243,7 @@ install () {
                 sudo systemctl daemon-reload
                 sudo systemctl stop tinker-bluetooth
                 sudo systemctl start tinker-bluetooth
+            
             elif [[ $REPLY =~ ^[Yy]$ ]] && [[ "${kernel}" != "4.14.42-rockchip"]]
                 echo ""
                 echo "############################"
@@ -247,11 +253,15 @@ install () {
                 sudo apt install -y bluetooth
                 sudo sed -i "/ExecStart=/i\ExecStartPre=/usr/sbin/rfkill unblock all" /lib/systemd/system/tinker-bluetooth.service
                 sudo sed -i "/ExecStart=/a\Restart=on-failure" /lib/systemd/system/tinker-bluetooth.service
-                git clone https://github.com/lwfinger/rtl8723bs_bt.git
-                cd rtl8723bs_bt
+                git clone https://github.com/JyuHo/tinkerboard_rtl8723bs.git
+                cd tinkerboard_rtl8723bs
                 make && sudo make install
+                sudo mv *.sh /usr/local/bin/
+                sudo sed -i "/ExecStart=/usr/bin/rtk_hciattach -n -s 115200 /dev/ttyS0 rtk_h5/c\ExecStart=/bin/bash /usr/local/bin/start_bt.sh" /lib/systemd/system/tinker-bluetooth.service
                 cd
                 rm -rf rtl8723bs_bt
+                echo "##  Bluetooth installed  ##"
+                echo ""
                 echo ""
                 echo "###############################"
                 echo "##  Launch bluetooth service ##"
@@ -263,12 +273,21 @@ install () {
                 sudo systemctl daemon-reload
                 sudo systemctl stop tinker-bluetooth
                 sudo systemctl start tinker-bluetooth
-            else
+                echo "##  Bluetooth Started  ##"
+                echo ""
+           
+           else
+                echo ""
+                echo "####################"
+                echo "##  Audio source  ##"
+                echo "####################"
+                echo ""
                 read -p "Do you want use audio by HDMI? (Y/N)" -n 1 -r
                 echo
             if [[ $REPLY =~ ^[Yy]$ ]]
             then
                sudo sed -i "/defaults.pcm.card 0/c\defaults.pcm.card 1" /usr/share/alsa/alsa.conf
+               echo "##  Audio source on HDMI  ##"
             else
                 echo ""
                 echo "#####################################"
@@ -280,13 +299,14 @@ install () {
             if [[ $REPLY =~ ^[Yy]$ ]]
             then
                 sudo sed -i "/nothing./a\echo 1 > /sys/module/bluetooth/parameters/disable_ertm &\n" /etc/rc.local
-            else
-                echo ""
-                echo "##############################"
-                echo "##  Installation completed  ##"
-                echo "##############################"
-                echo ""
-                echo "Run 'sudo ~/RetroPie-Setup/retropie_setup.sh' and then reboot your system. Then you can install the packages from RetroPie-Setup."
+                echo "##  Xbox One S support installed  ##"
+            fi
+       echo ""
+       echo "##############################"
+       echo "##  Installation completed  ##"
+       echo "##############################"
+       echo ""
+       echo "Run 'sudo ~/RetroPie-Setup/retropie_setup.sh' and then reboot your system. Then you can install the packages from RetroPie-Setup."
     fi
 }
 
