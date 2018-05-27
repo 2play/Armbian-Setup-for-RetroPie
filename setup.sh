@@ -56,7 +56,7 @@ check_kernel () {
         
         
         
-        if [[ "${kernel}" != "4.4.119-rockchip" ]]; then
+        if [[ "${kernel}" != "4.4.119-rockchip" || "4.14.44-rockchip"]]; then
             echo "Detected kernel version as $kernel"
             unknown_os
         fi
@@ -74,7 +74,7 @@ check_drivers () {
         
         
         
-        if [[ "${drivers}" != "r14p0-01rel0 (UK version 10.6)" ]]; then
+        if [[ "${drivers}" != "r14p0-01rel0 (UK version 10.6)" || "r19p0-01rel0 (UK version 10.6)" ]]; then
             echo "Detected drivers version as $drivers"
             unknown_os
         fi
@@ -199,27 +199,6 @@ install () {
         echo "########################"
         echo ""
         git clone --depth=1 https://github.com/RetroPie/RetroPie-Setup.git
-        
-        echo ""
-        echo "############################"
-        echo "##  Installing bluetooth  ##"
-        echo "############################"
-        echo ""
-        sudo apt install -y bluetooth
-        sudo sed -i "/ExecStart=/i\ExecStartPre=/usr/sbin/rfkill unblock all" /lib/systemd/system/tinker-bluetooth.service
-        sudo sed -i "/ExecStart=/a\Restart=on-failure" /lib/systemd/system/tinker-bluetooth.service
-
-        echo ""
-        echo "###############################"
-        echo "##  Launch bluetooth service ##"
-        echo "###############################"
-        echo ""
-        sudo systemctl stop tinker-bluetooth-restart
-        sudo systemctl disable tinker-bluetooth-restart
-        sudo rm /lib/systemd/system/tinker-bluetooth-restart.service
-        sudo systemctl daemon-reload
-        sudo systemctl stop tinker-bluetooth
-        sudo systemctl start tinker-bluetooth
 
         echo ""
         echo "####################################"
@@ -232,19 +211,83 @@ install () {
         echo "##  Optionnal installation  ##"
         echo "##############################"
         echo ""
-        read -p "Do you want use audio by HDMI? (Y/N)" -n 1 -r
+        
+    read -p "Do you want to make optional installations, such as bluetooth, audio source, etc ...? (Y/N)" -n 1 -r
         echo
+        if [[ $REPLY =~ ^[Yy]$ ]]
+        then
+            read -p "Do you want to install bluetooth? (Y/N)" -n 1 -r
+            if [[ $REPLY =~ ^[Yy]$ ]] && [[ "${kernel}" != "4.4.119-rockchip"]]
+                echo ""
+                echo "############################"
+                echo "##  Installing bluetooth  ##"
+                echo "############################"
+                echo ""
+                sudo apt install -y bluetooth
+                sudo sed -i "/ExecStart=/i\ExecStartPre=/usr/sbin/rfkill unblock all" /lib/systemd/system/tinker-bluetooth.service
+                sudo sed -i "/ExecStart=/a\Restart=on-failure" /lib/systemd/system/tinker-bluetooth.service
+
+                echo ""
+                echo "###############################"
+                echo "##  Launch bluetooth service ##"
+                echo "###############################"
+                echo ""
+                sudo systemctl stop tinker-bluetooth-restart
+                sudo systemctl disable tinker-bluetooth-restart
+                sudo rm /lib/systemd/system/tinker-bluetooth-restart.service
+                sudo systemctl daemon-reload
+                sudo systemctl stop tinker-bluetooth
+                sudo systemctl start tinker-bluetooth
+            elif [[ $REPLY =~ ^[Yy]$ ]] && [[ "${kernel}" != "4.14.42-rockchip"]]
+                echo ""
+                echo "############################"
+                echo "##  Installing bluetooth  ##"
+                echo "############################"
+                echo ""
+                sudo apt install -y bluetooth
+                sudo sed -i "/ExecStart=/i\ExecStartPre=/usr/sbin/rfkill unblock all" /lib/systemd/system/tinker-bluetooth.service
+                sudo sed -i "/ExecStart=/a\Restart=on-failure" /lib/systemd/system/tinker-bluetooth.service
+                git clone https://github.com/lwfinger/rtl8723bs_bt.git
+                cd rtl8723bs_bt
+                make && sudo make install
+                cd
+                rm -rf rtl8723bs_bt
+                echo ""
+                echo "###############################"
+                echo "##  Launch bluetooth service ##"
+                echo "###############################"
+                echo ""
+                sudo systemctl stop tinker-bluetooth-restart
+                sudo systemctl disable tinker-bluetooth-restart
+                sudo rm /lib/systemd/system/tinker-bluetooth-restart.service
+                sudo systemctl daemon-reload
+                sudo systemctl stop tinker-bluetooth
+                sudo systemctl start tinker-bluetooth
+            else
+                read -p "Do you want use audio by HDMI? (Y/N)" -n 1 -r
+                echo
             if [[ $REPLY =~ ^[Yy]$ ]]
             then
-                sudo sed -i "/defaults.pcm.card 0/c\defaults.pcm.card 1" /usr/share/alsa/alsa.conf
-    fi   
-        read -p "Do you want install Xbox One S Wireless support? (Y/N)" -n 1 -r
-        echo
+               sudo sed -i "/defaults.pcm.card 0/c\defaults.pcm.card 1" /usr/share/alsa/alsa.conf
+            else
+                echo ""
+                echo "#####################################"
+                echo "##  Installing controller support  ##"
+                echo "#####################################"
+                echo ""
+                read -p "Do you want install Xbox One S Wireless support? (Y/N)" -n 1 -r
+                echo
             if [[ $REPLY =~ ^[Yy]$ ]]
             then
                 sudo sed -i "/nothing./a\echo 1 > /sys/module/bluetooth/parameters/disable_ertm &\n" /etc/rc.local
-    fi   
-    echo "Run 'sudo ~/RetroPie-Setup/retropie_setup.sh' and then reboot your system. Then you can install the packages from RetroPie-Setup."
+            else
+                echo ""
+                echo "##############################"
+                echo "##  Installation completed  ##"
+                echo "##############################"
+                echo ""
+                echo "Run 'sudo ~/RetroPie-Setup/retropie_setup.sh' and then reboot your system. Then you can install the packages from RetroPie-Setup."
+    fi
 }
 
 main ()
