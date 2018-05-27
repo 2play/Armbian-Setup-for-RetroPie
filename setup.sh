@@ -122,6 +122,7 @@ install () {
             sudo apt install -y linux-headers-next-rockchip
         else
             sudo apt install -y linux-headers-rockchip
+        fi
         echo ""
         echo "##############################################"
         echo "##  Installing requirements for GPU driver  ##"
