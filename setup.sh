@@ -54,9 +54,7 @@ check_kernel () {
             unknown_os
         fi
         
-kv= "${'>=0' && '<=130'}"
-        
-        if [[ "${kernel}" != "4.4.$kv-rockchip" || "4.14.$kv-rockchip"]]; then
+        if [[ "${kernel}" != "4.4.'>=119'-rockchip" ]] || [[ "4.14.'>=21'-rockchip" ]]; then
             echo "Detected kernel version as $kernel"
             unknown_os
         fi
@@ -67,14 +65,14 @@ kv= "${'>=0' && '<=130'}"
 
 check_drivers () {
     if [[ ( -z "${drivers}" ) ]]; then
-        drivers=`cat /sys/module/midgard_kbase/version`
+        drivers=`cat /sys/module/midgard_kbase/version` || `cat /sys/module/mali_kbase/version`
         if [[ -z "$drivers" ]]; then
             unknown_os
         fi
         
         
         
-        if [[ "${drivers}" != "r14p0-01rel0 (UK version 10.6)" || "r19p0-01rel0 (UK version 10.6)" ]]; then
+        if [[ "${drivers}" != "r14p0-01rel0 (UK version 10.6)" ]] || [[ "r19p0-01rel0 (UK version 10.6)" ]]; then
             echo "Detected drivers version as $drivers"
             unknown_os
         fi
@@ -117,7 +115,7 @@ install () {
         echo "##  Installing kernel headers  ##"
         echo "#################################"
         echo ""
-        if [[ "${kernel}" == "4.14."$kv"-rockchip"]]
+        if [[ "${kernel}" == "4.14.'>=21'-rockchip"]]
         then
             sudo apt install -y linux-headers-next-rockchip
         else
@@ -209,21 +207,14 @@ install () {
         echo "##  Basic installation complete.  ##"
         echo "####################################"
         echo "" 
-    
-    fi
-       
+  
         echo ""
         echo "##############################"
         echo "##  Optionnal installation  ##"
         echo "##############################"
         echo ""
         
-    read -p "Do you want to make optional installations, such as bluetooth, audio source, etc ...? (Y/N)" -n 1 -r
-        echo
-        if [[ $REPLY =~ ^[Yy]$ ]]
-        then
-            read -p "Do you want to install bluetooth? (Y/N)" -n 1 -r
-            if [[ $REPLY =~ ^[Yy]$ ]] && [[ "${kernel}" != "4.4."$kv"-rockchip"]]
+        if [[ "${kernel}" == "4.4.'>=119'-rockchip"]]
                 echo ""
                 echo "############################"
                 echo "##  Installing bluetooth  ##"
@@ -245,7 +236,7 @@ install () {
                 sudo systemctl stop tinker-bluetooth
                 sudo systemctl start tinker-bluetooth
             
-            elif [[ $REPLY =~ ^[Yy]$ ]] && [[ "${kernel}" != "4.14."$kv"-rockchip"]]
+         elif [[ "${kernel}" != "4.14.'>=21'-rockchip"]]
                 echo ""
                 echo "############################"
                 echo "##  Installing bluetooth  ##"
@@ -276,20 +267,23 @@ install () {
                 sudo systemctl start tinker-bluetooth
                 echo "##  Bluetooth Started  ##"
                 echo ""
-           
-           else
-                echo ""
-                echo "####################"
-                echo "##  Audio source  ##"
-                echo "####################"
-                echo ""
-                read -p "Do you want use audio by HDMI? (Y/N)" -n 1 -r
-                echo
-            if [[ $REPLY =~ ^[Yy]$ ]]
-            then
-               sudo sed -i "/defaults.pcm.card 0/c\defaults.pcm.card 1" /usr/share/alsa/alsa.conf
-               echo "##  Audio source on HDMI  ##"
-            else
+        fi
+        read -p "Do you want to make optional installations, such as bluetooth, audio source, etc ...? (Y/N)" -n 1 -r
+        echo
+        if [[ $REPLY =~ ^[Yy]$ ]]
+        then
+             echo ""
+             echo "####################"
+             echo "##  Audio source  ##"
+             echo "####################"
+             echo ""
+             read -p "Do you want use audio by HDMI? (Y/N)" -n 1 -r
+             echo
+             if [[ $REPLY =~ ^[Yy]$ ]]
+             then
+                sudo sed -i "/defaults.pcm.card 0/c\defaults.pcm.card 1" /usr/share/alsa/alsa.conf
+                echo "##  Audio source on HDMI  ##"
+             else
                 echo ""
                 echo "#####################################"
                 echo "##  Installing controller support  ##"
@@ -297,17 +291,17 @@ install () {
                 echo ""
                 read -p "Do you want install Xbox One S Wireless support? (Y/N)" -n 1 -r
                 echo
-            if [[ $REPLY =~ ^[Yy]$ ]]
-            then
+             if [[ $REPLY =~ ^[Yy]$ ]]
+             then
                 sudo sed -i "/nothing./a\echo 1 > /sys/module/bluetooth/parameters/disable_ertm &\n" /etc/rc.local
                 echo "##  Xbox One S support installed  ##"
-            fi
-       echo ""
-       echo "##############################"
-       echo "##  Installation completed  ##"
-       echo "##############################"
-       echo ""
-       echo "Run 'sudo ~/RetroPie-Setup/retropie_setup.sh' and then reboot your system. Then you can install the packages from RetroPie-Setup."
+             fi
+             echo ""
+             echo "##############################"
+             echo "##  Installation completed  ##"
+             echo "##############################"
+             echo ""
+             echo "Run 'sudo ~/RetroPie-Setup/retropie_setup.sh' and then reboot your system. Then you can install the packages from RetroPie-Setup."
     fi
 }
 
