@@ -317,7 +317,13 @@ install () {
                             echo "##############################"
                             echo ""
                             echo "Run 'sudo ~/RetroPie-Setup/retropie_setup.sh' and then reboot your system. Then you can install the packages from RetroPie-Setup."
+                        fi
+                    fi
+                fi
+            fi
+        fi
     fi
+fi
 }
 
 main ()
