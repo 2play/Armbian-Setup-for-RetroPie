@@ -1,1 +1,1 @@
-pkill -STOP mpv
+killall -q SIGTERM mpv
