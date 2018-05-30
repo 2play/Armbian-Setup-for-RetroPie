@@ -81,7 +81,7 @@ check_drivers () {
     fi
 }
 
-install () {
+install_basis () {
     read -p "Do you want to continue, this will update your system and install the required packages and drivers? (Y/N)" -n 1 -r
     echo
     if [[ $REPLY =~ ^[Yy]$ ]]
@@ -203,126 +203,128 @@ install () {
         echo "##  Basic installation complete.  ##"
         echo "####################################"
         echo "" 
-  
+    fi
+}
+
+install_optional () {
+    read -p "Do you want to make optional installations, such as bluetooth, audio source, etc ...? (Y/N)" -n 1 -r
+    echo
+    if [[ $REPLY =~ ^[Yy]$ ]]
+    then
         echo ""
         echo "##############################"
         echo "##  Optionnal installation  ##"
         echo "##############################"
         echo ""
-        read -p "Do you want to make optional installations, such as bluetooth, audio source, etc ...? (Y/N)" -n 1 -r
+        read -p "Do you want installed bluetooth? (Y/N)" -n 1 -r
         echo
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
-            read -p "Do you want installed bluetooth? (Y/N)" -n 1 -r
-            echo
-            if [[ $REPLY =~ ^[Yy]$ ]]
-            then
-                echo ""
-                echo "############################"
-                echo "##  Installing bluetooth  ##"
-                echo "############################"
-                echo ""
-                sudo apt install -y bluetooth
-                sudo sed -i "/ExecStart=/i\ExecStartPre=/usr/sbin/rfkill unblock all" /lib/systemd/system/tinker-bluetooth.service
-                sudo sed -i "/ExecStart=/a\Restart=on-failure" /lib/systemd/system/tinker-bluetooth.service
+            echo ""
+            echo "############################"
+            echo "##  Installing bluetooth  ##"
+            echo "############################"
+            echo ""
+            sudo apt install -y bluetooth
+            sudo sed -i "/ExecStart=/i\ExecStartPre=/usr/sbin/rfkill unblock all" /lib/systemd/system/tinker-bluetooth.service
+            sudo sed -i "/ExecStart=/a\Restart=on-failure" /lib/systemd/system/tinker-bluetooth.service
 
-                echo ""
-                echo "###############################"
-                echo "##  Launch bluetooth service ##"
-                echo "###############################"
-                echo ""
-                sudo systemctl stop tinker-bluetooth-restart
-                sudo systemctl disable tinker-bluetooth-restart
-                sudo rm /lib/systemd/system/tinker-bluetooth-restart.service
-                sudo systemctl daemon-reload
-                sudo systemctl stop tinker-bluetooth
-                sudo systemctl start tinker-bluetooth
+            echo ""
+            echo "###############################"
+            echo "##  Launch bluetooth service ##"
+            echo "###############################"
+            echo ""
+            sudo systemctl stop tinker-bluetooth-restart
+            sudo systemctl disable tinker-bluetooth-restart
+            sudo rm /lib/systemd/system/tinker-bluetooth-restart.service
+            sudo systemctl daemon-reload
+            sudo systemctl stop tinker-bluetooth
+            sudo systemctl start tinker-bluetooth
                 
-                echo ""
-                echo "##  Bluetooth installed ##"
-                
-            else 
-                read -p "Do you want audio by HDMI? (Y/N)" -n 1 -r
-                echo
-                if [[ $REPLY =~ ^[Yy]$ ]]
-                then
-                    echo ""
-                    echo "####################"
-                    echo "##  Audio source  ##"
-                    echo "####################"
-                    echo ""
-                    sudo sed -i "/defaults.pcm.card 0/c\defaults.pcm.card 1" /usr/share/alsa/alsa.conf
+            echo ""
+            echo "##  Bluetooth installed ##"
+            echo ""
+        fi        
+            
+        read -p "Do you want audio by HDMI? (Y/N)" -n 1 -r
+        echo
+        if [[ $REPLY =~ ^[Yy]$ ]]
+        then
+            echo ""
+            echo "####################"
+            echo "##  Audio source  ##"
+            echo "####################"
+            echo ""
+            sudo sed -i "/defaults.pcm.card 0/c\defaults.pcm.card 1" /usr/share/alsa/alsa.conf
                     
-                    echo ""
-                    echo "##  Audio source on HDMI  ##"
-             else
-                read -p "Do you want install Xbox One S Wireless support? (Y/N)" -n 1 -r
-                echo
-                if [[ $REPLY =~ ^[Yy]$ ]]
-                then
-                    echo ""
-                    echo "#####################################"
-                    echo "##  Installing controller support  ##"
-                    echo "#####################################"
-                    echo ""
-                    sudo sed -i "/nothing./a\echo 1 > /sys/module/bluetooth/parameters/disable_ertm &\n" /etc/rc.local
-                    
-                    echo ""
-                    echo "##  Xbox One S support installed  ##"
-                
-                else
-                    read -p "Do you want install Background Music? (Y/N)" -n 1 -r
-                    echo
-                    if [[ $REPLY =~ ^[Yy]$ ]]
-                    then
-                        echo ""
-                        echo "#####################################"
-                        echo "##  Install Background Music  ##"
-                        echo "#####################################"
-                        echo ""
-                        mkdir -p $HOME/RetroPie/roms/musics
-                        sudo mkdir -p /opt/retropie/config/all
-                        sudo wget https://github.com/JyuHo/Armbian-Setup-for-RetroPie/blob/master/autostart.sh -O /opt/retropie/config/all/autostart.sh
-                        sudo wget https://github.com/JyuHo/Armbian-Setup-for-RetroPie/blob/master/runcommand-onend.sh -O /opt/retropie/config/all/runcommand-onend.sh
-                        sudo wget https://github.com/JyuHo/Armbian-Setup-for-RetroPie/blob/master/runcommand-onstart.sh -O /opt/retropie/config/all/runcommand-onstart.sh
-                        
-                        echo ""
-                        echo "##  Background Music ready  ##"
-                        echo "## You can drop your music files into ~/RetroPie/roms/musics"
-                    
-                    else
-                        read -p "Do you want install OMXPLAYER for splachscreen? (Y/N)" -n 1 -r
-                        echo
-                        if [[ $REPLY =~ ^[Yy]$ ]]
-                        then
-                            echo ""
-                            echo "#####################################"
-                            echo "##  Install OMXPLAYER  ##"
-                            echo "#####################################"
-                            echo ""
-                            wget http://ftp.de.debian.org/debian/pool/main/o/openssl/libssl1.0.0_1.0.2l-1~bpo8+1_armhf.deb
-                            sudo dpkg -i libssl1.0.0_1.0.2l-1~bpo8+1_armhf.deb
-                            sudo apt install libssh-4 fonts-freefont-ttf
-                            wget http://omxplayer.sconde.net/builds/omxplayer_0.3.7~git20170130~62fb580_armhf.deb
-                            sudo dpkg -i omxplayer_0.3.7~git20170130~62fb580_armhf.deb
-                            rm *.deb
-                            
-                            echo ""
-                            echo "##  OMXPLAYER installed  ##"
-                        
-                        else
-                            echo ""
-                            echo "##############################"
-                            echo "##  Installation completed  ##"
-                            echo "##############################"
-                            echo ""
-                            echo "Run 'sudo ~/RetroPie-Setup/retropie_setup.sh' and then reboot your system. Then you can install the packages from RetroPie-Setup."
-                        fi
-                    fi
-                fi
-            fi
+            echo ""
+            echo "##  Audio source on HDMI  ##"
         fi
-    fi
+                
+        read -p "Do you want install Xbox One S Wireless support? (Y/N)" -n 1 -r
+        echo
+        if [[ $REPLY =~ ^[Yy]$ ]]
+        then
+            echo ""
+            echo "#####################################"
+            echo "##  Installing controller support  ##"
+            echo "#####################################"
+            echo ""
+            sudo sed -i "/nothing./a\echo 1 > /sys/module/bluetooth/parameters/disable_ertm &\n" /etc/rc.local
+                   
+            echo ""
+            echo "##  Xbox One S support installed  ##"
+            echo ""
+        fi
+                    
+        read -p "Do you want install Background Music? (Y/N)" -n 1 -r
+        echo
+        if [[ $REPLY =~ ^[Yy]$ ]]
+        then
+            echo ""
+            echo "#####################################"
+            echo "##  Install Background Music  ##"
+            echo "#####################################"
+            echo ""
+            mkdir -p $HOME/RetroPie/roms/musics
+            sudo mkdir -p /opt/retropie/config/all
+            sudo wget https://github.com/JyuHo/Armbian-Setup-for-RetroPie/blob/master/autostart.sh -O /opt/retropie/config/all/autostart.sh
+            sudo wget https://github.com/JyuHo/Armbian-Setup-for-RetroPie/blob/master/runcommand-onend.sh -O /opt/retropie/config/all/runcommand-onend.sh
+            sudo wget https://github.com/JyuHo/Armbian-Setup-for-RetroPie/blob/master/runcommand-onstart.sh -O /opt/retropie/config/all/runcommand-onstart.sh
+                        
+            echo ""
+            echo "##  Background Music ready  ##"
+            echo "## You can drop your music files into ~/RetroPie/roms/musics"
+            echo ""
+        fi
+                    
+        read -p "Do you want install OMXPLAYER for splachscreen? (Y/N)" -n 1 -r
+        echo
+        if [[ $REPLY =~ ^[Yy]$ ]]
+        then
+            echo ""
+            echo "#####################################"
+            echo "##  Install OMXPLAYER  ##"
+            echo "#####################################"
+            echo ""
+            wget http://ftp.de.debian.org/debian/pool/main/o/openssl/libssl1.0.0_1.0.2l-1~bpo8+1_armhf.deb
+            sudo dpkg -i libssl1.0.0_1.0.2l-1~bpo8+1_armhf.deb
+            sudo apt install libssh-4 fonts-freefont-ttf
+            wget http://omxplayer.sconde.net/builds/omxplayer_0.3.7~git20170130~62fb580_armhf.deb
+            sudo dpkg -i omxplayer_0.3.7~git20170130~62fb580_armhf.deb
+            rm *.deb
+                            
+            echo ""
+            echo "##  OMXPLAYER installed  ##"
+            echo ""
+        fi
+                        
+        echo ""
+        echo "##############################"
+        echo "##  Installation completed  ##"
+        echo "##############################"
+        echo ""
+        echo "Run 'sudo ~/RetroPie-Setup/retropie_setup.sh' and then reboot your system. Then you can install the packages from RetroPie-Setup."
 fi
 }
 
@@ -332,7 +334,8 @@ main ()
     check_os
     check_kernel
     check_drivers
-    install
+    install_basis
+    install_optional
 }
 
 main
