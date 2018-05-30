@@ -309,7 +309,7 @@ install_optional () {
             echo ""
             wget http://ftp.de.debian.org/debian/pool/main/o/openssl/libssl1.0.0_1.0.2l-1~bpo8+1_armhf.deb
             sudo dpkg -i libssl1.0.0_1.0.2l-1~bpo8+1_armhf.deb
-            sudo apt install libssh-4 fonts-freefont-ttf
+            sudo apt install -y libssh-4 fonts-freefont-ttf
             wget http://omxplayer.sconde.net/builds/omxplayer_0.3.7~git20170130~62fb580_armhf.deb
             sudo dpkg -i omxplayer_0.3.7~git20170130~62fb580_armhf.deb
             rm *.deb
