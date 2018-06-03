@@ -7,5 +7,5 @@ local ra="$REGEX_AUDIO"
 while pgrep omxplayer >/dev/null; do sleep 1; done
 mpv /home/$USER/RetroPie/splashscreens/*"$rv"
 sleep 1;
-mpv --no-video --loop --shuffle /home/$USER/RetroPie/roms/musics/*"$ra" >/dev/null 2>&1 &
+mpv --no-video --quiet --no-display-video --loop --shuffle /home/$USER/RetroPie/roms/musics/*"$ra" >/dev/null 2 >&1 &
 emulationstation #auto
