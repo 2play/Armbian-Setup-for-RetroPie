@@ -116,8 +116,8 @@ install_basis () {
         echo "##  Installing kernel headers  ##"
         echo "#################################"
         echo ""
-        git clone --branch rockchip-header https://github.com/MySora/linux-headers-rockchip/raw/master/linux-headers-rockchip_5.50_armhf.deb
-        sudo dpkg -i linux-headers-rockchip_5.50_armhf.deb
+        wget https://github.com/MySora/linux-headers/raw/master/armbian/linux-headers-rockchip_5.50.deb
+        sudo dpkg -i linux-headers-rockchip_5.50.deb
         rm *.deb
         
         echo ""
