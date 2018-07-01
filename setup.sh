@@ -54,7 +54,7 @@ check_kernel () {
             unknown_os
         fi
         
-        if [[ "${kernel}" != "4.4.119-rockchip" ]]; then
+        if [[ "${kernel}" != "4.4.135-rockchip" ]]; then
             echo "Detected kernel version as $kernel"
             unknown_os
         fi
@@ -72,7 +72,7 @@ check_drivers () {
         
         
         
-        if [[ "${drivers}" != "r14p0-01rel0 (UK version 10.6)" ]]; then
+        if [[ "${drivers}" != "r18p0-01rel0 (UK version 10.6)" ]]; then
             echo "Detected drivers version as $drivers"
             unknown_os
         fi
@@ -116,7 +116,10 @@ install_basis () {
         echo "##  Installing kernel headers  ##"
         echo "#################################"
         echo ""
-        sudo apt install -y linux-headers-rockchip
+        git clone --branch rockchip-header https://github.com/MySora/linux-headers-rockchip/raw/master/linux-headers-rockchip_5.50_armhf.deb
+        sudo dpkg -i linux-headers-rockchip_5.50_armhf.deb
+        rm *.deb
+        
         echo ""
         echo "##############################################"
         echo "##  Installing requirements for GPU driver  ##"
@@ -153,13 +156,13 @@ install_basis () {
         echo "##  Installing libmali  ##"
         echo "##########################"
         echo ""
-        git clone --branch rockchip-header https://github.com/rockchip-linux/libmali.git
+        git clone --branch rockchip-header https://github.com/MySora/libmali.git
         cd libmali
         cmake CMakeLists.txt
         make -j4 -C ~/libmali && sudo make install
         cd ~
         rm -rf libmali
-        git clone --branch rockchip https://github.com/rockchip-linux/libmali.git
+        git clone --branch rockchip https://github.com/MySora/libmali.git
         cd libmali
         cmake CMakeLists.txt
         make -j4 -C ~/libmali && sudo make install
