@@ -156,13 +156,7 @@ install_basis () {
         echo "##  Installing libmali  ##"
         echo "##########################"
         echo ""
-        git clone --branch rockchip-header https://github.com/MySora/libmali.git
-        cd libmali
-        cmake CMakeLists.txt
-        make -j4 -C ~/libmali && sudo make install
-        cd ~
-        rm -rf libmali
-        git clone --branch rockchip https://github.com/MySora/libmali.git
+        git clone --branch rockchip_new https://github.com/MySora/libmali.git
         cd libmali
         cmake CMakeLists.txt
         make -j4 -C ~/libmali && sudo make install
