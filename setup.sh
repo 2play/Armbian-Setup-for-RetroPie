@@ -20,7 +20,7 @@ check_sudo ()
 unknown_os ()
 {
 read -p "ATTENTION: this script is not optimized for your system (read the lines above for more information). Do you want to continue anyway? (!!RISKY!!) (Y/N)"
-if [[ $REPLY != "Y" ]]
+if ! [[ $REPLY =~ ^[Yy]$ ]]
 then
 echo "Exiting setup script..."
   exit 1
