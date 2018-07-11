@@ -2,6 +2,12 @@
 
 home="$(eval echo ~$user)"
 
+#This Script is optimized for the following versions:
+refDrivers="r18p0-01rel0 (UK version 10.6)"
+refKernel="4.4.135-rockchip"
+refOS = "debian"
+refDist = "stretch"
+
 # check, if sudo is used
 check_sudo ()
 {
@@ -13,8 +19,13 @@ check_sudo ()
 
 unknown_os ()
 {
-  echo "Unfortunately, your operating system distribution, version, kernel or drivers are not supported by this script."
+read -p "ATTENTION: this script is not optimized for your system (read the lines above for more information). Do you want to continue anyway? (!!RISKY!!)"
+if [[ $REPLY !=~ ^[Yy]$ ]]
+then
+echo "Exiting setup script..."
   exit 1
+fi
+
 }
 
 detect_os ()
@@ -35,16 +46,17 @@ detect_os ()
   # remove whitespace from OS and dist name
   os="${os// /}"
   dist="${dist// /}"
-
-  echo "Detected operating system as $os/$dist"
 }
 
 check_os () {
     detect_os
     
-    if [[ "${os}" != "debian" || "${dist}" != "stretch" ]]; then
+    if [[ "${os}" != "${refOS}" || "${dist}" != "${refDist}" ]]; then
+	echo "Different OS/Distribution detected: $os/$dist"
+	echo "This script is optimized for: $refOS/$refDist"
         unknown_os
     fi
+	echo "OS/Distribution: $os/$dist"
 }
 
 check_kernel () {
@@ -54,12 +66,13 @@ check_kernel () {
             unknown_os
         fi
         
-        if [[ "${kernel}" != "4.4.135-rockchip" ]]; then
-            echo "Detected kernel version as $kernel"
+        if [[ "${kernel}" != "${refKernel}" ]]; then
+            echo "Different kernel detected: $kernel"
+			echo "This script is optimized for: $refKernel"
             unknown_os
         fi
         
-        echo "Detected kernel version as $kernel"
+        echo "Linux Kernel version: $kernel"
     fi
 }
 
@@ -72,17 +85,18 @@ check_drivers () {
         
         
         
-        if [[ "${drivers}" != "r18p0-01rel0 (UK version 10.6)" ]]; then
-            echo "Detected drivers version as $drivers"
+        if [[ "${drivers}" != "${refDrivers}" ]]; then
+            echo "Different drivers detected: $drivers"
+			echo "This script is optimized for: $refDrivers"
             unknown_os
         fi
         
-        echo "Detected drivers version as $drivers"
+        echo "Mali Driver version: $drivers"
     fi
 }
 
 install_basis () {
-    read -p "Do you want to continue, this will update your system and install the required packages and drivers? (Y/N)" -n 1 -r
+    read -p "Do you want to continue? this will update your system and install the required packages and drivers. (Y/N)" -n 1 -r
     echo
     if [[ $REPLY =~ ^[Yy]$ ]]
     then
@@ -197,23 +211,23 @@ install_basis () {
 
         echo ""
         echo "####################################"
-        echo "##  Basic installation complete.  ##"
+        echo "##  Basic installation completed.  ##"
         echo "####################################"
         echo "" 
     fi
 }
 
 install_optional () {
-    read -p "Do you want to make optional installations, such as bluetooth, audio source, etc ...? (Y/N)" -n 1 -r
+    read -p "Do you want to install additional features such as bluetooth support, background music, audio source etc ...? (Y/N)" -n 1 -r
     echo
     if [[ $REPLY =~ ^[Yy]$ ]]
     then
         echo ""
         echo "##############################"
-        echo "##  Optionnal installation  ##"
+        echo "##  Optional installation  ##"
         echo "##############################"
         echo ""
-        read -p "Do you want installed bluetooth? (Y/N)" -n 1 -r
+        read -p "Do you want to install bluetooth? (Y/N)" -n 1 -r
         echo
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
@@ -243,7 +257,7 @@ install_optional () {
             echo ""
         fi        
             
-        read -p "Do you want audio by HDMI? (Y/N)" -n 1 -r
+        read -p "Do you want audio via HDMI? (Y/N)" -n 1 -r
         echo
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
@@ -274,28 +288,28 @@ install_optional () {
             echo ""
         fi
                     
-        read -p "Do you want install Background Music? (Y/N)" -n 1 -r
+        read -p "Do you want to install Background Music? (Y/N)" -n 1 -r
         echo
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
             echo ""
             echo "#####################################"
-            echo "##  Install Background Music  ##"
+            echo "##  Installing Background Music  ##"
             echo "#####################################"
             echo ""
             mkdir -p $HOME/RetroPie/roms/musics
             sudo mkdir -p /opt/retropie/config/all
-            sudo wget https://github.com/JyuHo/Armbian-Setup-for-RetroPie/blob/master/autostart.sh -O /opt/retropie/config/all/autostart.sh
-            sudo wget https://github.com/JyuHo/Armbian-Setup-for-RetroPie/blob/master/runcommand-onend.sh -O /opt/retropie/config/all/runcommand-onend.sh
-            sudo wget https://github.com/JyuHo/Armbian-Setup-for-RetroPie/blob/master/runcommand-onstart.sh -O /opt/retropie/config/all/runcommand-onstart.sh
-                        
+            sudo wget https://raw.githubusercontent.com/MySora/Armbian-Setup-for-RetroPie/master/autostart.sh -O /opt/retropie/config/all/autostart.sh
+            sudo wget https://raw.githubusercontent.com/MySora/Armbian-Setup-for-RetroPie/master/runcommand-onend.sh -O /opt/retropie/config/all/runcommand-onend.sh
+            sudo wget https://raw.githubusercontent.com/MySora/Armbian-Setup-for-RetroPie/master/runcommand-onstart.sh -O /opt/retropie/config/all/runcommand-onstart.sh
+            chmod +x "/opt/retropie/config/all/autostart.sh" "/opt/retropie/config/all/runcommand-onend.sh" "/opt/retropie/config/all/runcommand-onstart.sh"
             echo ""
             echo "##  Background Music ready  ##"
             echo "## You can drop your music files into ~/RetroPie/roms/musics"
             echo ""
         fi
                     
-        read -p "Do you want install OMXPLAYER for splachscreen? (Y/N)" -n 1 -r
+        read -p "Do you want to install OMXPLAYER for splachscreen? (Y/N)" -n 1 -r
         echo
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
@@ -313,6 +327,21 @@ install_optional () {
                             
             echo ""
             echo "##  OMXPLAYER installed  ##"
+            echo ""
+        fi
+	    read -p "Do you want to install TheBezelProject? (Y/N)" -n 1 -r
+        echo	
+		if [[ $REPLY =~ ^[Yy]$ ]]
+        then
+            echo ""
+            echo "#####################################"
+            echo "##  Install TheBezelProject  ##"
+            echo "#####################################"
+            echo ""
+            wget https://raw.githubusercontent.com/thebezelproject/BezelProject/master/bezelproject.sh -O /home/$USER/RetroPie/retropiemenu/
+            chmod +x "/home/$USER/RetroPie/retropiemenu/bezelproject.sh"       
+            echo ""
+            echo "##  TheBezelProject is ready  ##"
             echo ""
         fi
                         
