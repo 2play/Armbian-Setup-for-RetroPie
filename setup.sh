@@ -5,8 +5,8 @@ home="$(eval echo ~$user)"
 #This Script is optimized for the following versions:
 refDrivers="r18p0-01rel0 (UK version 10.6)"
 refKernel="4.4.135-rockchip"
-refOS = "debian"
-refDist = "stretch"
+refOS="debian"
+refDist="stretch"
 
 # check, if sudo is used
 check_sudo ()
@@ -19,8 +19,8 @@ check_sudo ()
 
 unknown_os ()
 {
-read -p "ATTENTION: this script is not optimized for your system (read the lines above for more information). Do you want to continue anyway? (!!RISKY!!)"
-if [[ $REPLY !=~ ^[Yy]$ ]]
+read -p "ATTENTION: this script is not optimized for your system (read the lines above for more information). Do you want to continue anyway? (!!RISKY!!) (Y/N)"
+if [[ $REPLY != "Y" ]]
 then
 echo "Exiting setup script..."
   exit 1
