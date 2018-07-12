@@ -302,10 +302,10 @@ install_optional () {
             sudo wget https://raw.githubusercontent.com/MySora/Armbian-Setup-for-RetroPie/master/autostart.sh -O /opt/retropie/config/all/autostart.sh
             sudo wget https://raw.githubusercontent.com/MySora/Armbian-Setup-for-RetroPie/master/runcommand-onend.sh -O /opt/retropie/config/all/runcommand-onend.sh
             sudo wget https://raw.githubusercontent.com/MySora/Armbian-Setup-for-RetroPie/master/runcommand-onstart.sh -O /opt/retropie/config/all/runcommand-onstart.sh
-            chmod +x "/opt/retropie/config/all/autostart.sh" "/opt/retropie/config/all/runcommand-onend.sh" "/opt/retropie/config/all/runcommand-onstart.sh"
+            sudo chmod +x "/opt/retropie/config/all/autostart.sh" "/opt/retropie/config/all/runcommand-onend.sh" "/opt/retropie/config/all/runcommand-onstart.sh"
             echo ""
             echo "##  Background Music ready  ##"
-            echo "## You can drop your music files into ~/RetroPie/roms/musics"
+            echo "## You can drop your music files into ~/RetroPie/roms/music"
             echo ""
         fi
                     
@@ -338,8 +338,8 @@ install_optional () {
             echo "##  Install TheBezelProject  ##"
             echo "#####################################"
             echo ""
-            wget https://raw.githubusercontent.com/thebezelproject/BezelProject/master/bezelproject.sh -O /home/$USER/RetroPie/retropiemenu/
-            chmod +x "/home/$USER/RetroPie/retropiemenu/bezelproject.sh"       
+            wget https://raw.githubusercontent.com/thebezelproject/BezelProject/master/bezelproject.sh -O /home/$USER/RetroPie/retropiemenu/bezelproject.sh
+            sudo chmod +x "/home/$USER/RetroPie/retropiemenu/bezelproject.sh"       
             echo ""
             echo "##  TheBezelProject is ready  ##"
             echo ""
