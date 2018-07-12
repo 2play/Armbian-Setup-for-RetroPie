@@ -297,7 +297,7 @@ install_optional () {
             echo "##  Installing Background Music  ##"
             echo "#####################################"
             echo ""
-            mkdir -p $HOME/RetroPie/roms/musics
+            mkdir -p $HOME/RetroPie/roms/music
             sudo mkdir -p /opt/retropie/config/all
             sudo wget https://raw.githubusercontent.com/MySora/Armbian-Setup-for-RetroPie/master/autostart.sh -O /opt/retropie/config/all/autostart.sh
             sudo wget https://raw.githubusercontent.com/MySora/Armbian-Setup-for-RetroPie/master/runcommand-onend.sh -O /opt/retropie/config/all/runcommand-onend.sh
