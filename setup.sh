@@ -272,7 +272,23 @@ install_optional () {
             echo "##  Audio source on HDMI  ##"
         fi
                 
-        read -p "Do you want install Xbox One S Wireless support? (Y/N)" -n 1 -r
+        read -p "Do you want to install Xbox One S Wireless support? (Y/N)" -n 1 -r
+        echo
+        if [[ $REPLY =~ ^[Yy]$ ]]
+        then
+            echo ""
+            echo "#####################################"
+            echo "##  Installing Xbox One S support  ##"
+            echo "#####################################"
+            echo ""
+            sudo sed -i "/nothing./a\echo 1 > /sys/module/bluetooth/parameters/disable_ertm &\n" /etc/rc.local
+                   
+            echo ""
+            echo "##  Xbox One S Wireless Controller installed  ##"
+            echo ""
+        fi
+		
+		read -p "Do you want to install additional controller support? (Y/N)" -n 1 -r
         echo
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
@@ -281,10 +297,9 @@ install_optional () {
             echo "##  Installing controller support  ##"
             echo "#####################################"
             echo ""
-            sudo sed -i "/nothing./a\echo 1 > /sys/module/bluetooth/parameters/disable_ertm &\n" /etc/rc.local
-                   
+            sudo apt-get install joystick joy2key jstest-gtk qjoypad xinput        
             echo ""
-            echo "##  Xbox One S support installed  ##"
+            echo "##  Additional controller support installed  ##"
             echo ""
         fi
                     
@@ -298,10 +313,10 @@ install_optional () {
             echo "#####################################"
             echo ""
             mkdir -p $HOME/RetroPie/roms/music
-            sudo mkdir -p /opt/retropie/config/all
-            sudo wget https://raw.githubusercontent.com/MySora/Armbian-Setup-for-RetroPie/master/autostart.sh -O /opt/retropie/config/all/autostart.sh
-            sudo wget https://raw.githubusercontent.com/MySora/Armbian-Setup-for-RetroPie/master/runcommand-onend.sh -O /opt/retropie/config/all/runcommand-onend.sh
-            sudo wget https://raw.githubusercontent.com/MySora/Armbian-Setup-for-RetroPie/master/runcommand-onstart.sh -O /opt/retropie/config/all/runcommand-onstart.sh
+            sudo mkdir -p /opt/retropie/configs/all
+            sudo wget https://raw.githubusercontent.com/MySora/Armbian-Setup-for-RetroPie/master/autostart.sh -O /opt/retropie/configs/all/autostart.sh
+            sudo wget https://raw.githubusercontent.com/MySora/Armbian-Setup-for-RetroPie/master/runcommand-onend.sh -O /opt/retropie/configs/all/runcommand-onend.sh
+            sudo wget https://raw.githubusercontent.com/MySora/Armbian-Setup-for-RetroPie/master/runcommand-onstart.sh -O /opt/retropie/configs/all/runcommand-onstart.sh
             sudo chmod +x "/opt/retropie/config/all/autostart.sh" "/opt/retropie/config/all/runcommand-onend.sh" "/opt/retropie/config/all/runcommand-onstart.sh"
             echo ""
             echo "##  Background Music ready  ##"
@@ -338,7 +353,8 @@ install_optional () {
             echo "##  Install TheBezelProject  ##"
             echo "#####################################"
             echo ""
-            wget https://raw.githubusercontent.com/thebezelproject/BezelProject/master/bezelproject.sh -O /home/$USER/RetroPie/retropiemenu/bezelproject.sh
+			mkdir -p $HOME/RetroPie/retropiemenu/
+            sudo wget https://raw.githubusercontent.com/thebezelproject/BezelProject/master/bezelproject.sh -O /home/$USER/RetroPie/retropiemenu/bezelproject.sh
             sudo chmod +x "/home/$USER/RetroPie/retropiemenu/bezelproject.sh"       
             echo ""
             echo "##  TheBezelProject is ready  ##"
