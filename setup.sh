@@ -125,6 +125,13 @@ install_basis () {
         sudo apt install -y libtool cmake autoconf automake libxml2-dev libusb-1.0-0-dev libavcodec-dev \
                             libavformat-dev libavdevice-dev libdrm-dev pkg-config mpv
         
+	    echo ""
+        echo "#################################"
+        echo "##  Installing specific Deps   ##"
+        echo "#################################"
+        echo ""
+		sudo apt install -y libgl1-mesa-dev libxcursor-dev libxi-dev libxinerama-dev libxrandr-dev libxss-dev
+		
         echo ""
         echo "#################################"
         echo "##  Installing kernel headers  ##"
@@ -297,7 +304,7 @@ install_optional () {
             echo "##  Installing controller support  ##"
             echo "#####################################"
             echo ""
-            sudo apt-get install joystick joy2key jstest-gtk qjoypad xinput        
+            sudo apt install -y joystick joy2key jstest-gtk qjoypad xinput        
             echo ""
             echo "##  Additional controller support installed  ##"
             echo ""
@@ -358,6 +365,21 @@ install_optional () {
             sudo chmod +x "/home/$USER/RetroPie/retropiemenu/bezelproject.sh"       
             echo ""
             echo "##  TheBezelProject is ready  ##"
+            echo ""
+        fi
+		read -p "Do you want to create a symlink from pi to this user? (Y/N)" -n 1 -r
+        echo	
+		if [[ $REPLY =~ ^[Yy]$ ]]
+        then
+            echo ""
+            echo "#####################################"
+            echo "##  Creating symlink  ##"
+            echo "#####################################"
+            echo ""
+            sudo ln -s 	$HOME/ /home/pi
+			sudo chown -h $USER:$USER /home/pi
+            echo ""
+            echo "##  Symlink created  ##"
             echo ""
         fi
                         
