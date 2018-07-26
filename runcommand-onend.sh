@@ -1,1 +1,1 @@
-mpv --no-video --quiet -- no-display-video --loop --shuffle /home/$USER/RetroPie/roms/music/*
+mpv --really-quiet --no-video --shuffle /home/tinker/RetroPie/roms/music/*.* &> /dev/null &
