@@ -177,7 +177,13 @@ install_basis () {
         echo "##  Installing libmali  ##"
         echo "##########################"
         echo ""
-        git clone --branch rockchip_new https://github.com/MySora/libmali.git
+        git clone --branch rockchip-header https://github.com/MySora/libmali.git
+        cd libmali
+        cmake CMakeLists.txt
+        make -j4 -C ~/libmali && sudo make install
+        cd ~
+        rm -rf libmali
+        git clone --branch rockchip https://github.com/MySora/libmali.git
         cd libmali
         cmake CMakeLists.txt
         make -j4 -C ~/libmali && sudo make install
@@ -201,7 +207,7 @@ install_basis () {
         echo "##  Installing Wayland  ##"
         echo "##########################"
         echo ""
-        sudo apt install libffi-dev libexpat1-dev
+        sudo apt install -y libffi-dev libexpat1-dev
         git clone https://github.com/wayland-project/wayland.git
         cd wayland
         ./autogen.sh --disable-documentation
