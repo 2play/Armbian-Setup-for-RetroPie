@@ -343,7 +343,7 @@ install_optional () {
             sudo wget https://raw.githubusercontent.com/2play/Armbian-Setup-for-RetroPie/master/autostart.sh -O /opt/retropie/configs/all/autostart.sh
             sudo wget https://raw.githubusercontent.com/2play/Armbian-Setup-for-RetroPie/master/runcommand-onend.sh -O /opt/retropie/configs/all/runcommand-onend.sh
             sudo wget https://raw.githubusercontent.com/2play/Armbian-Setup-for-RetroPie/master/runcommand-onstart.sh -O /opt/retropie/configs/all/runcommand-onstart.sh
-            sudo chmod +x /opt/retropie/configs/all/*.*
+            sudo chmod +x /opt/retropie/configs/all/*.sh
             echo ""
             echo "##  Background Music ready  ##"
             echo "## You can drop your music files into ~/RetroPie/roms/music"
