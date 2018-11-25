@@ -283,8 +283,8 @@ install_optional () {
             echo ""
         fi        
             
-        read -p "Do you want audio via HDMI? (Y/N) You can enable later" -n 1 -r
-        echo
+        read -p "Do you want audio via HDMI? (Y/N). Select N and plug a headphone to 3.5mm jack! HMDI Sound will start!"
+	echo
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
             echo ""
