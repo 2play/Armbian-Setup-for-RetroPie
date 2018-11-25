@@ -411,7 +411,7 @@ install_optional () {
 		- Copy your favorite splashscreen mp4 file in the spalshcreen samba directory.
 		- Reboot System 
 		- Run 'sudo ~/RetroPie-Setup/retropie_setup.sh'
-		- Instal samba shares (Click again to enable after samba install)
+		- Install samba shares (Click again to enable after samba install)
 		- Install core packages (From Source)
 		- Go to configuration/tools -> boot options -> And set emulationstation to start at boot
 		- Reboot System. Then you can install basic package or your packages from RetroPie-Setup."
