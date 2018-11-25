@@ -293,6 +293,8 @@ install_optional () {
             echo "####################"
             echo ""
             sudo sed -i "/defaults.pcm.card 0/c\defaults.pcm.card 1" /usr/share/alsa/alsa.conf
+	    #To revert above use below on cli
+	    #sudo sed -i "/defaults.pcm.card 1/c\defaults.pcm.card 0" /usr/share/alsa/alsa.conf
                     
             echo ""
             echo "##  Audio source on HDMI  ##"
@@ -335,7 +337,7 @@ install_optional () {
         then
             echo ""
             echo "#####################################"
-            echo "##  Installing Background Music  ##"
+            echo "##   Installing Background Music   ##"
             echo "#####################################"
             echo ""
             mkdir -p $HOME/RetroPie/roms/music
@@ -356,7 +358,7 @@ install_optional () {
         then
             echo ""
             echo "#####################################"
-            echo "##  Install OMXPLAYER  ##"
+            echo "##        Install OMXPLAYER        ##"
             echo "#####################################"
             echo ""
             wget http://ftp.de.debian.org/debian/pool/main/o/openssl/libssl1.0.0_1.0.2l-1~bpo8+1_armhf.deb
