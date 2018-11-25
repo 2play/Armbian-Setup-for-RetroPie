@@ -232,9 +232,9 @@ install_basis () {
         echo "########################################################"
         echo ""
         git clone --depth=1 https://github.com/RetroPie/RetroPie-Setup.git
-		mkdir -p $HOME/RetroPie/splashscreens	  
-        
-		echo ""
+	mkdir -p $HOME/RetroPie/splashscreens
+		
+	echo ""
         echo "####################################"
         echo "##  Basic installation completed.  ##"
         echo "####################################"
@@ -392,10 +392,11 @@ install_optional () {
         echo "##############################"
         echo ""
         echo "
-		- Copy your favorite splashscreen mp4 file in the spalshcreen samba directory.
 		- Reboot System 
 		- Run 'sudo ~/RetroPie-Setup/retropie_setup.sh'
-		- Install samba shares (Click again to enable after samba install)
+		- Install samba shares (Click again top option to enable after samba install)
+		- Copy your favorite splashscreen mp4 file in the spalshcreen samba directory.
+		- Copy your music to /roms/music/ directory for use by the BGM script.
 		- Install core packages (From Source)
 		- Go to configuration/tools -> boot options -> And set emulationstation to start at boot
 		- Reboot System. Then you can install basic package or your packages from RetroPie-Setup."
