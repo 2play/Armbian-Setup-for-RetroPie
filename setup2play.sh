@@ -5,6 +5,7 @@ home="$(eval echo ~$user)"
 #This Script is optimized for the following versions (On different Kernel you need to update some entries acordingly):
 refDrivers="r18p0-01rel0 (UK version 10.6)"
 refKernel="4.4.156-rockchip"
+#refKernel="4.4.162-rockchip"
 refOS="debian"
 refDist="stretch"
 
@@ -143,8 +144,8 @@ install_basis () {
 												
 												
 			   
-		#wget https://github.com/2play/Armbian-Tinker-Setup/raw/master/linux-headers-rockchip_5.60_armhf.deb
-        #sudo dpkg -i linux-headers-rockchip_5.60_armhf.deb
+	#wget https://github.com/2play/Armbian-Setup-for-RetroPie/raw/master/linux-headers-rockchip_5.67_armhf.deb
+        #sudo dpkg -i linux-headers-rockchip_5.67_armhf.deb
 				
 		
 		echo ""
