@@ -160,6 +160,7 @@ install_basis () {
         echo "##  Installing GPU userspace driver  ##"
         echo "#######################################"
         echo ""
+
 #With --force-overwrite if needed
         #wget https://github.com/rockchip-linux/rk-rootfs-build/raw/master/packages/armhf/libmali/libmali-rk-midgard-t76x-r14p0-r0p0_1.6-1_armhf.deb
         #sudo dpkg -i --force-overwrite libmali-rk-midgard-t76x-r14p0-r0p0_1.6-1_armhf.deb
