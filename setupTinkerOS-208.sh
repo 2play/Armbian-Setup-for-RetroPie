@@ -340,7 +340,7 @@ install_optional () {
 		- Reboot System 
 		- Run 'sudo ~/RetroPie-Setup/retropie_setup.sh'
 		- Install samba shares (Click again top option to enable after samba install)
-		- Copy your favorite splashscreen mp4 file in the spalshcreen samba directory.
+		- Copy your favorite splashscreen mp4 file in the splashcreen samba directory.
 		- Copy your music to /roms/music/ directory for use by the BGM script.
 		- Install core packages (From Source)
 		- Go to configuration/tools -> boot options -> And set emulationstation to start at boot
