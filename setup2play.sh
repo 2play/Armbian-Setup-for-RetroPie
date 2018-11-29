@@ -116,7 +116,7 @@ install_basis () {
         echo "#######################"
         echo ""
         sudo apt update
-		sudo apt upgrade -y
+	sudo apt upgrade -y
         
         echo ""
         echo "############################################"
@@ -132,6 +132,12 @@ install_basis () {
         echo "#################################"
         echo ""
 		sudo apt install -y libgl1-mesa-dev libxcursor-dev libxi-dev libxinerama-dev libxrandr-dev libxss-dev
+		sudo apt-get install -y git dialog unzip xmlstarlet
+		apt-get install language-pack-en-base
+		update-locale LC_ALL="en_US.UTF-8"
+		update-locale LANG="en_US.UTF-8"
+		update-locale LANGUAGE="en_US.UTF-8"
+		dpkg-reconfigure locales
 		
 	echo ""
         echo "#######################################################################################################"
@@ -141,14 +147,10 @@ install_basis () {
 	echo "#######################################################################################################"
         echo ""
         sudo apt install -y linux-headers-rockchip
-												
-												
-			   
 	#wget https://github.com/2play/Armbian-Setup-for-RetroPie/raw/master/linux-headers-rockchip_5.67_armhf.deb
         #sudo dpkg -i linux-headers-rockchip_5.67_armhf.deb
-				
 		
-		echo ""
+	echo ""
         echo "##############################################"
         echo "##  Installing requirements for GPU driver  ##"
         echo "##############################################"
@@ -161,16 +163,16 @@ install_basis () {
         echo "#######################################"
         echo ""
 
-#With --force-overwrite if needed
+	#With --force-overwrite if needed
         #wget https://github.com/rockchip-linux/rk-rootfs-build/raw/master/packages/armhf/libmali/libmali-rk-midgard-t76x-r14p0-r0p0_1.6-1_armhf.deb
         #sudo dpkg -i --force-overwrite libmali-rk-midgard-t76x-r14p0-r0p0_1.6-1_armhf.deb
         #wget https://github.com/rockchip-linux/rk-rootfs-build/raw/master/packages/armhf/libmali/libmali-rk-dev_1.6-1_armhf.deb
         #sudo dpkg -i --force-overwrite libmali-rk-dev_1.6-1_armhf.deb
-		wget https://github.com/rockchip-linux/rk-rootfs-build/raw/master/packages/armhf/libmali/libmali-rk-midgard-t76x-r14p0-r0p0_1.6-1_armhf.deb
+	wget https://github.com/rockchip-linux/rk-rootfs-build/raw/master/packages/armhf/libmali/libmali-rk-midgard-t76x-r14p0-r0p0_1.6-1_armhf.deb
         sudo dpkg -i libmali-rk-midgard-t76x-r14p0-r0p0_1.6-1_armhf.deb
         wget https://github.com/rockchip-linux/rk-rootfs-build/raw/master/packages/armhf/libmali/libmali-rk-dev_1.6-1_armhf.deb
         sudo dpkg -i libmali-rk-dev_1.6-1_armhf.deb
-		rm *.deb
+	rm *.deb
         
 	echo ""
         echo "################################################################"
@@ -190,7 +192,7 @@ install_basis () {
         echo "##  Installing libmali  ##"
         echo "##########################"
         echo ""
-		git clone --branch rockchip-header https://github.com/2play/libmali.git
+	git clone --branch rockchip-header https://github.com/2play/libmali.git
         cd libmali
         cmake CMakeLists.txt
         make -j4 -C ~/libmali && sudo make install
@@ -250,42 +252,7 @@ install_optional () {
     echo
     if [[ $REPLY =~ ^[Yy]$ ]]
     then
-        echo ""
-        echo "##############################"
-        echo "##  Optional installation  ##"
-        echo "##############################"
-        echo ""
-        read -p "Do you want to install bluetooth? (Y/N)" -n 1 -r
-        echo
-        if [[ $REPLY =~ ^[Yy]$ ]]
-        then
-            echo ""
-            echo "############################"
-            echo "##  Installing bluetooth  ##"
-            echo "############################"
-            echo ""
-            sudo apt install -y bluetooth
-            sudo sed -i "/ExecStart=/i\ExecStartPre=/usr/sbin/rfkill unblock all" /lib/systemd/system/tinker-bluetooth.service
-            sudo sed -i "/ExecStart=/a\Restart=on-failure" /lib/systemd/system/tinker-bluetooth.service
-
-            echo ""
-            echo "###############################"
-            echo "##  Launch bluetooth service ##"
-            echo "###############################"
-            echo ""
-            sudo systemctl stop tinker-bluetooth-restart
-            sudo systemctl disable tinker-bluetooth-restart
-            sudo rm /lib/systemd/system/tinker-bluetooth-restart.service
-            sudo systemctl daemon-reload
-            sudo systemctl stop tinker-bluetooth
-            sudo systemctl start tinker-bluetooth
-                
-            echo ""
-            echo "##  Bluetooth installed ##"
-            echo ""
-        fi        
-            
-        read -p "Do you want audio via HDMI? (Y/N). Select N and plug a headphone to 3.5mm jack! HMDI Sound will start!"
+        read -p "Do you want audio via HDMI? (Y/N). Select (N)."
 	echo
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
