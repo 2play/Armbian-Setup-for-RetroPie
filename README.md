@@ -28,7 +28,7 @@ Disable/Reverse
  sudo sed -i "/defaults.pcm.card 1/c\defaults.pcm.card 0" /usr/share/alsa/alsa.conf
 
 - Reboot System 
-- Run 'sudo ~/RetroPie-Setup/retropie_setup.sh'
+- Run `sudo ~/RetroPie-Setup/retropie_setup.sh`
 - Install samba shares (Click again top option to enable after samba install)
 - Copy your favorite splashscreen mp4 file in the splashcreen samba directory.
 - Copy your music to /roms/music/ directory for use by the BGM script.
