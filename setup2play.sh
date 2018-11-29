@@ -252,7 +252,37 @@ install_optional () {
     echo
     if [[ $REPLY =~ ^[Yy]$ ]]
     then
-        read -p "Do you want audio via HDMI? (Y/N). Select No at this point." -n 1 -r
+        read -p "Do you want to install bluetooth? (Y/N)" -n 1 -r
+        echo
+        if [[ $REPLY =~ ^[Yy]$ ]]
+        then
+            echo ""
+            echo "############################"
+            echo "##  Installing bluetooth  ##"
+            echo "############################"
+            echo ""
+            sudo apt install -y bluetooth
+            sudo sed -i "/ExecStart=/i\ExecStartPre=/usr/sbin/rfkill unblock all" /lib/systemd/system/tinker-bluetooth.service
+            sudo sed -i "/ExecStart=/a\Restart=on-failure" /lib/systemd/system/tinker-bluetooth.service
+
+            echo ""
+            echo "###############################"
+            echo "##  Launch bluetooth service ##"
+            echo "###############################"
+            echo ""
+            sudo systemctl stop tinker-bluetooth-restart
+            sudo systemctl disable tinker-bluetooth-restart
+            sudo rm /lib/systemd/system/tinker-bluetooth-restart.service
+            sudo systemctl daemon-reload
+            sudo systemctl stop tinker-bluetooth
+            sudo systemctl start tinker-bluetooth
+                
+            echo ""
+            echo "##  Bluetooth installed ##"
+            echo ""
+        fi        
+	
+	read -p "Do you want audio via HDMI? (Y/N). Select No at this point." -n 1 -r
 	echo
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
