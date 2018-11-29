@@ -146,7 +146,8 @@ install_basis () {
         echo "##  Installing GPU userspace driver  ##"
         echo "#######################################"
         echo ""
-#With --force-overwrite if needed
+
+	#With --force-overwrite if needed
         #wget https://github.com/rockchip-linux/rk-rootfs-build/raw/master/packages/armhf/libmali/libmali-rk-midgard-t76x-r14p0-r0p0_1.6-1_armhf.deb
         #sudo dpkg -i --force-overwrite libmali-rk-midgard-t76x-r14p0-r0p0_1.6-1_armhf.deb
         #wget https://github.com/rockchip-linux/rk-rootfs-build/raw/master/packages/armhf/libmali/libmali-rk-dev_1.6-1_armhf.deb
@@ -157,18 +158,18 @@ install_basis () {
         sudo dpkg -i libmali-rk-dev_1.6-1_armhf.deb
 	rm *.deb
         
-	#echo ""
-        #echo "################################################################"
-        #echo "##  Installing libDRM with experimental rockchip API support  ##"
-        #echo "################################################################"
-        #echo ""
-        #sudo apt install -y xutils-dev
-        #git clone --branch rockchip-2.4.74 https://github.com/rockchip-linux/libdrm-rockchip.git
-        #cd libdrm-rockchip
-        #./autogen.sh --disable-intel --enable-rockchip-experimental-api --disable-freedreno --disable-tegra --disable-vmwgfx --disable-vc4 --disable-radeon --disable-amdgpu --disable-nouveau
-        #make -j4 && sudo make install
-        #cd ~
-        #rm -rf libdrm-rockchip
+	echo ""
+        echo "################################################################"
+        echo "##  Installing libDRM with experimental rockchip API support  ##"
+        echo "################################################################"
+        echo ""
+        sudo apt install -y xutils-dev
+        git clone --branch rockchip-2.4.74 https://github.com/rockchip-linux/libdrm-rockchip.git
+        cd libdrm-rockchip
+        ./autogen.sh --disable-intel --enable-rockchip-experimental-api --disable-freedreno --disable-tegra --disable-vmwgfx --disable-vc4 --disable-radeon --disable-amdgpu --disable-nouveau
+        make -j4 && sudo make install
+        cd ~
+        rm -rf libdrm-rockchip
         
 	echo ""
         echo "##########################"
@@ -235,41 +236,6 @@ install_optional () {
     echo
     if [[ $REPLY =~ ^[Yy]$ ]]
     then
-        echo ""
-        echo "##############################"
-        echo "##  Optional installation  ##"
-        echo "##############################"
-        echo ""
-        read -p "Do you want to install bluetooth? (Y/N)" -n 1 -r
-        echo
-        if [[ $REPLY =~ ^[Yy]$ ]]
-        then
-            echo ""
-            echo "############################"
-            echo "##  Installing bluetooth  ##"
-            echo "############################"
-            echo ""
-            sudo apt install -y bluetooth
-            sudo sed -i "/ExecStart=/i\ExecStartPre=/usr/sbin/rfkill unblock all" /lib/systemd/system/tinker-bluetooth.service
-            sudo sed -i "/ExecStart=/a\Restart=on-failure" /lib/systemd/system/tinker-bluetooth.service
-
-            echo ""
-            echo "###############################"
-            echo "##  Launch bluetooth service ##"
-            echo "###############################"
-            echo ""
-            sudo systemctl stop tinker-bluetooth-restart
-            sudo systemctl disable tinker-bluetooth-restart
-            sudo rm /lib/systemd/system/tinker-bluetooth-restart.service
-            sudo systemctl daemon-reload
-            sudo systemctl stop tinker-bluetooth
-            sudo systemctl start tinker-bluetooth
-                
-            echo ""
-            echo "##  Bluetooth installed ##"
-            echo ""
-        fi        
-            
         read -p "Do you want audio via HDMI? (Y/N). Select N and plug a headphone to 3.5mm jack! HMDI Sound will start!"
 	echo
         if [[ $REPLY =~ ^[Yy]$ ]]
@@ -339,9 +305,9 @@ install_optional () {
             echo ""
         fi
                     
-        #read -p "Do you want to install OMXPLAYER for splachscreen? (Y/N)" -n 1 -r
-        #echo
-        #if [[ $REPLY =~ ^[Yy]$ ]]
+        read -p "Do you want to install OMXPLAYER for splachscreen? (Y/N)" -n 1 -r
+        echo
+        if [[ $REPLY =~ ^[Yy]$ ]]
         then
             echo ""
             echo "#####################################"
@@ -360,23 +326,7 @@ install_optional () {
             echo ""
         fi
 	
-	#read -p "Do you want to create a symlink from pi to this user? (Y/N) (NOT Needed if you use pi user)" -n 1 -r
-        #echo	
-	#if [[ $REPLY =~ ^[Yy]$ ]]
-        then
-            echo ""
-            echo "#####################################"							
-            echo "##  Creating symlink  ##"
-            echo "#####################################"
-            echo ""
-            sudo ln -s 	$HOME/ /home/pi
-			sudo chown -h $USER:$USER /home/pi
-            echo ""
-            echo "##  Symlink created  ##"
-            echo ""
-        fi
-                        
-        echo ""
+	echo ""
         echo "##############################"
         echo "##  Installation completed  ##"
         echo "##############################"
