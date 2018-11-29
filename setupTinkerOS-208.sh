@@ -123,15 +123,16 @@ install_basis () {
         echo "#################################"
         echo ""
 		sudo apt install -y libgl1-mesa-dev libxcursor-dev libxi-dev libxinerama-dev libxrandr-dev libxss-dev
+		sudo apt-get install -y git dialog unzip xmlstarlet
 		
-	echo ""
-        echo "###########################################"
-        echo "##  Installing Tinker OS 2.0.8 Headers   ##"
-        echo "###########################################"
-        echo ""
+	#echo ""
+        #echo "###########################################"
+        #echo "##  Installing Tinker OS 2.0.8 Headers   ##"
+        #echo "###########################################"
+        #echo ""
 
-	wget https://github.com/TinkerBoard/debian_kernel/releases/download/2.0.8/linux-headers-4.4.132+_4.4.132+-1_armhf.deb 
-        sudo dpkg -i linux-headers-4.4.132+_4.4.132+-1_armhf.deb 				
+	#wget https://github.com/TinkerBoard/debian_kernel/releases/download/2.0.8/linux-headers-4.4.132+_4.4.132+-1_armhf.deb 
+        #sudo dpkg -i linux-headers-4.4.132+_4.4.132+-1_armhf.deb 				
 		
 	echo ""
         echo "##############################################"
@@ -156,25 +157,25 @@ install_basis () {
         sudo dpkg -i libmali-rk-dev_1.6-1_armhf.deb
 	rm *.deb
         
-	echo ""
-        echo "################################################################"
-        echo "##  Installing libDRM with experimental rockchip API support  ##"
-        echo "################################################################"
-        echo ""
-        sudo apt install -y xutils-dev
-        git clone --branch rockchip-2.4.74 https://github.com/rockchip-linux/libdrm-rockchip.git
-        cd libdrm-rockchip
-        ./autogen.sh --disable-intel --enable-rockchip-experimental-api --disable-freedreno --disable-tegra --disable-vmwgfx --disable-vc4 --disable-radeon --disable-amdgpu --disable-nouveau
-        make -j4 && sudo make install
-        cd ~
-        rm -rf libdrm-rockchip
+	#echo ""
+        #echo "################################################################"
+        #echo "##  Installing libDRM with experimental rockchip API support  ##"
+        #echo "################################################################"
+        #echo ""
+        #sudo apt install -y xutils-dev
+        #git clone --branch rockchip-2.4.74 https://github.com/rockchip-linux/libdrm-rockchip.git
+        #cd libdrm-rockchip
+        #./autogen.sh --disable-intel --enable-rockchip-experimental-api --disable-freedreno --disable-tegra --disable-vmwgfx --disable-vc4 --disable-radeon --disable-amdgpu --disable-nouveau
+        #make -j4 && sudo make install
+        #cd ~
+        #rm -rf libdrm-rockchip
         
-		echo ""
+	echo ""
         echo "##########################"
         echo "##  Installing libmali  ##"
         echo "##########################"
         echo ""
-		git clone --branch rockchip-header https://github.com/2play/libmali.git
+	git clone --branch rockchip-header https://github.com/2play/libmali.git
         cd libmali
         cmake CMakeLists.txt
         make -j4 -C ~/libmali && sudo make install
@@ -338,9 +339,9 @@ install_optional () {
             echo ""
         fi
                     
-        read -p "Do you want to install OMXPLAYER for splachscreen? (Y/N)" -n 1 -r
-        echo
-        if [[ $REPLY =~ ^[Yy]$ ]]
+        #read -p "Do you want to install OMXPLAYER for splachscreen? (Y/N)" -n 1 -r
+        #echo
+        #if [[ $REPLY =~ ^[Yy]$ ]]
         then
             echo ""
             echo "#####################################"
@@ -358,9 +359,10 @@ install_optional () {
             echo "##  OMXPLAYER installed  ##"
             echo ""
         fi
-		read -p "Do you want to create a symlink from pi to this user? (Y/N) (NOT Needed if you use pi user)" -n 1 -r
-        echo	
-		if [[ $REPLY =~ ^[Yy]$ ]]
+	
+	#read -p "Do you want to create a symlink from pi to this user? (Y/N) (NOT Needed if you use pi user)" -n 1 -r
+        #echo	
+	#if [[ $REPLY =~ ^[Yy]$ ]]
         then
             echo ""
             echo "#####################################"							
