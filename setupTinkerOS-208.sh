@@ -124,6 +124,11 @@ install_basis () {
         echo ""
 		sudo apt install -y libgl1-mesa-dev libxcursor-dev libxi-dev libxinerama-dev libxrandr-dev libxss-dev
 		sudo apt-get install -y git dialog unzip xmlstarlet
+		apt-get install language-pack-en-base
+		update-locale LC_ALL="en_US.UTF-8"
+		update-locale LANG="en_US.UTF-8"
+		update-locale LANGUAGE="en_US.UTF-8"
+		dpkg-reconfigure locales
 		
 	#echo ""
         #echo "###########################################"
