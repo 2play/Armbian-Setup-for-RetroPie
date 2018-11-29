@@ -12,8 +12,8 @@ This is an updated/revamped version for Armbian 5.60 kernel 4.4.152 (will be upg
 - Create pi user at first boot
 - reboot
 - ssh to it
-- wget https://github.com/2play/Armbian-Setup-for-RetroPie/raw/master/setup2play.sh
-sudo chmod 777 setup2play.sh
+- wget https://github.com/2play/Armbian-Setup-for-RetroPie/raw/master/setup2play.sh 
+- sudo chmod 777 setup2play.sh
 - Edit setup script versions as needed bss kernel and rk chip.
 for headers (NO NEED if you use latest stable 4.4.152 > will be upgraded to 4.4.156 stable)
 - run ./setup2Play.sh
