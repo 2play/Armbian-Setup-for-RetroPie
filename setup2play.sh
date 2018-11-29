@@ -252,7 +252,7 @@ install_optional () {
     echo
     if [[ $REPLY =~ ^[Yy]$ ]]
     then
-        read -p "Do you want audio via HDMI? (Y/N). Select (N)."
+        read -p "Do you want audio via HDMI? (Y/N). Select No at this point." -n 1 -r
 	echo
         if [[ $REPLY =~ ^[Yy]$ ]]
         then
